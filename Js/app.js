@@ -29,13 +29,19 @@ const categoryNewsLoad = (category_id) => {
 const showCategoryNews = (categoryNews) => {
   console.log(categoryNews);
   const card = document.getElementById("category-news");
+  const notFound = document.getElementById("not-found");
   card.innerHTML = "";
+  if (categoryNews.length === 0) {
+    notFound.innerHTML = `
+    <h2 class="text-center text-warning">No News found here !! search another </h2>`;
+  }
   categoryNews.forEach((news) => {
+    notFound.innerHTML = "";
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("col");
     console.log(news);
     cardDiv.innerHTML = `
-    <div class="card mb-3" style="max-width: 540px;">
+    <div class="card mb-3">
     <div class="row g-0">
         <div class="col-md-5">
             <img src="${news.thumbnail_url}" class="img-fluid h-100" alt="...">
@@ -47,7 +53,8 @@ const showCategoryNews = (categoryNews) => {
                 <img src="${
                   news.author.img
                 }" class="h-50 w-50 rounded-circle" alt="">
-                  <p>${news.author.name}</p>
+                  <p class="ms-3">${news.author.name}</p>
+                  <p>Total view : ${news.total_view}</p>
                
                 <button id="show-details" onclick="showCategoryDetails('${
                   news._id
