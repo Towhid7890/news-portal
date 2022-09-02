@@ -53,12 +53,19 @@ const showCategoryNews = (categoryNews) => {
                 <div class="author-img d-flex">
                 <img src="${news.author.img}" class="rounded-circle" alt="">
                 <div>
-                <p class="ms-3">${news.author.name}</p>
+                <p class="ms-3">${
+                  news.author.name === null
+                    ? "No Author found"
+                    : news.author.name
+                }</p>
+              
                 <p class="ms-3">${news.author.published_date}</p>
                 </div>
                 </div>
                   
-                  <p>Total view : ${news.total_view}</p>
+                  <p>Total view : ${
+                    news.total_view === null ? "No views " : news.total_view
+                  }</p>
                
                 <button id="show-details" onclick="showCategoryDetails('${
                   news._id
@@ -71,14 +78,14 @@ const showCategoryNews = (categoryNews) => {
     card.appendChild(cardDiv);
   });
 };
-
+// Load category details with modal
 const showCategoryDetails = (news_id) => {
   const url = `https://openapi.programming-hero.com/api/news/${news_id}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => categoryDetails(data.data[0]));
 };
-
+// Load category details with modal
 const categoryDetails = (details) => {
   console.log(details);
   const title = document.getElementById("exampleModalLabel");
@@ -87,6 +94,20 @@ const categoryDetails = (details) => {
   modal.innerHTML = `
   <img src="${details.thumbnail_url}" alt="">
   `;
+  const modalDetails = document.getElementById("modal-details");
+  modalDetails.innerText = details.details.slice(0, 200);
+  const modalAuthor = document.getElementById("modal-author");
+  if (details.author.name === null) {
+    modalAuthor.innerText = "No author";
+  } else {
+    modalAuthor.innerText = "Author:" + " " + details.author.name;
+  }
+  const modalViews = document.getElementById("modal-views");
+  if (details.total_view === null) {
+    modalViews.innerText = "No views";
+  } else {
+    modalViews.innerText = "Total View:" + " " + details.total_view;
+  }
 };
 
 loadCategory();
