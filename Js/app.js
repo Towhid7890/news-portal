@@ -18,14 +18,14 @@ const showNewsCategory = (categories) => {
   });
 };
 
-// showing categories news details for
+// loading categories news details for
 const categoryNewsLoad = (category_id) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${category_id}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => showCategoryNews(data.data));
 };
-
+// showing categories news details for
 const showCategoryNews = (categoryNews) => {
   console.log(categoryNews);
   const card = document.getElementById("category-news");
@@ -43,17 +43,21 @@ const showCategoryNews = (categoryNews) => {
     cardDiv.innerHTML = `
     <div class="card mb-3">
     <div class="row g-0">
-        <div class="col-md-5">
-            <img src="${news.thumbnail_url}" class="img-fluid h-100" alt="...">
+        <div class="col-sm-12 text-center col-md-5">
+            <img src="${news.thumbnail_url}" class="w-100 h-100" alt="...">
         </div>
-        <div class="col-md-7">
+        <div class="col-sm-12 col-md-7">
             <div class="card-body">
                 <h5 class="card-title">${news.title}</h5>
                 <p class="card-text">${news.details.slice(0, 120)}....</p>
-                <img src="${
-                  news.author.img
-                }" class="h-50 w-50 rounded-circle" alt="">
-                  <p class="ms-3">${news.author.name}</p>
+                <div class="author-img d-flex">
+                <img src="${news.author.img}" class="rounded-circle" alt="">
+                <div>
+                <p class="ms-3">${news.author.name}</p>
+                <p class="ms-3">${news.author.published_date}</p>
+                </div>
+                </div>
+                  
                   <p>Total view : ${news.total_view}</p>
                
                 <button id="show-details" onclick="showCategoryDetails('${
