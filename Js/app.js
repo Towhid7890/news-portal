@@ -3,7 +3,8 @@ const loadCategory = () => {
   const url = "https://openapi.programming-hero.com/api/news/categories";
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showNewsCategory(data.data.news_category));
+    .then((data) => showNewsCategory(data.data.news_category))
+    .catch((error) => console.log(error));
 };
 const showNewsCategory = (categories) => {
   const categoryContainer = document.getElementById("category-container");
@@ -27,7 +28,8 @@ const categoryNewsLoad = (category_id, name) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${category_id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showCategoryNews(data.data, name));
+    .then((data) => showCategoryNews(data.data, name))
+    .catch((error) => console.log(error));
 };
 // showing categories news details for
 const showCategoryNews = (categoryNews, name) => {
@@ -94,7 +96,8 @@ const showCategoryDetails = (news_id) => {
   const url = `https://openapi.programming-hero.com/api/news/${news_id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => categoryDetails(data.data[0]));
+    .then((data) => categoryDetails(data.data[0]))
+    .catch((error) => console.log(error));
 };
 // Load category details with modal
 const categoryDetails = (details) => {
@@ -106,7 +109,7 @@ const categoryDetails = (details) => {
   <img src="${details.thumbnail_url}" alt="">
   `;
   const modalDetails = document.getElementById("modal-details");
-  modalDetails.innerText = details.details.slice(0, 200);
+  modalDetails.innerText = details.details.slice(0, 200) + "...";
   const modalAuthor = document.getElementById("modal-author");
   if (details.author.name === null) {
     modalAuthor.innerText = "No author";
