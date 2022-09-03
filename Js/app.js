@@ -42,7 +42,9 @@ const showCategoryNews = (categoryNews, name) => {
     notFound.innerHTML = `
     <h2 class="text-center text-warning">No News found here !! search another </h2>`;
   }
-  categoryNews.forEach((news) => {
+  const sort = categoryNews.sort((a, b) => b.total_view - a.total_view);
+  console.log(sort);
+  sort.forEach((news) => {
     notFound.innerHTML = "";
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("col");
