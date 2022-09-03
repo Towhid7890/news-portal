@@ -13,7 +13,7 @@ const showNewsCategory = (categories) => {
     const listDiv = document.createElement("li");
     listDiv.classList.add("nav-item");
     listDiv.innerHTML = `
-    <a onclick="categoryNewsLoad('${category.category_id}','${category.category_name}')" class="nav-link active" aria-current="page">${category.category_name}</a>
+    <a  onclick="categoryNewsLoad('${category.category_id}','${category.category_name}')" class="nav-link active owner" aria-current="page">${category.category_name}</a>
     `;
     categoryContainer.appendChild(listDiv);
   });
@@ -42,6 +42,7 @@ const showCategoryNews = (categoryNews, name) => {
     notFound.innerHTML = `
     <h2 class="text-center text-warning">No News found here !! search another </h2>`;
   }
+  //   sorting the array with total viewers
   const sort = categoryNews.sort((a, b) => b.total_view - a.total_view);
   console.log(sort);
   sort.forEach((news) => {
