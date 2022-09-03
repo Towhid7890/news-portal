@@ -12,22 +12,27 @@ const showNewsCategory = (categories) => {
     const listDiv = document.createElement("li");
     listDiv.classList.add("nav-item");
     listDiv.innerHTML = `
-    <a onclick="categoryNewsLoad('${category.category_id}')" class="nav-link active" aria-current="page">${category.category_name}</a>
+    <a onclick="categoryNewsLoad('${category.category_id}','${category.category_name}')" class="nav-link active" aria-current="page">${category.category_name}</a>
     `;
     categoryContainer.appendChild(listDiv);
   });
 };
 
 // loading categories news details for
-const categoryNewsLoad = (category_id) => {
+const categoryNewsLoad = (category_id, name) => {
+  // show spinner
+  const spinnerSection = document.getElementById("spinner");
+  spinnerSection.classList.remove("d-none");
+
   const url = `https://openapi.programming-hero.com/api/news/category/${category_id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showCategoryNews(data.data));
+    .then((data) => showCategoryNews(data.data, name));
 };
 // showing categories news details for
-const showCategoryNews = (categoryNews) => {
-  console.log(categoryNews);
+const showCategoryNews = (categoryNews, name) => {
+  const categoryNumber = document.getElementById("category-number");
+  categoryNumber.innerHTML = `<h2 class="text-center">Total ${categoryNews.length} news found in ${name}</h2>`;
   const card = document.getElementById("category-news");
   const notFound = document.getElementById("not-found");
   card.innerHTML = "";
@@ -59,7 +64,11 @@ const showCategoryNews = (categoryNews) => {
                     : news.author.name
                 }</p>
               
-                <p class="ms-3">${news.author.published_date}</p>
+                <p class="ms-3">${
+                  news.author.published_date === null
+                    ? "No date"
+                    : news.author.published_date
+                }</p>
                 </div>
                 </div>
                   
@@ -77,6 +86,8 @@ const showCategoryNews = (categoryNews) => {
     `;
     card.appendChild(cardDiv);
   });
+  const spinnerSection = document.getElementById("spinner");
+  spinnerSection.classList.add("d-none");
 };
 // Load category details with modal
 const showCategoryDetails = (news_id) => {
@@ -107,6 +118,11 @@ const categoryDetails = (details) => {
     modalViews.innerText = "No views";
   } else {
     modalViews.innerText = "Total View:" + " " + details.total_view;
+  }
+  if (details.author.published_date === null) {
+    document.getElementById("date").innerText = "No date found";
+  } else {
+    document.getElementById("date").innerText = details.author.published_date;
   }
 };
 
